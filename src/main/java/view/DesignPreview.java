@@ -5,10 +5,13 @@ import model.FileOperations;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 
-public class DesignPreview extends JFrame {
+public class DesignPreview extends JFrame implements ActionListener {
     private JMenuBar menubar; // Menu Bar variable
     private JMenu file; // Title for first menu includes 2 items
     private JMenuItem loadFile; // Menu Item 1
@@ -25,6 +28,10 @@ public class DesignPreview extends JFrame {
     private JPanel rightPanel; // Right panel include invoice panel details, invoice item table, save button and cancel button
     private JPanel leftPanelButtons; // Include create and Delete buttons
     private JPanel rightPanelButtons; // Include Save and Cancel buttons
+    public static JLabel invoiceNumberValueLabel;
+    public static JTextField invoiceDatatextField;
+    public static JTextField customerNmaetextField;
+    public static JLabel invoiceTotalLabel;
 
 
     public DesignPreview() {
@@ -36,7 +43,7 @@ public class DesignPreview extends JFrame {
         //Load file item
         loadFile = new JMenuItem("Load File", 'L');
         loadFile.setAccelerator(KeyStroke.getKeyStroke('L', KeyEvent.CTRL_DOWN_MASK));
-        //loadFile.addActionListener(this);
+        loadFile.addActionListener(this);
         loadFile.setActionCommand("L");
 
         //Save file item
@@ -62,9 +69,7 @@ public class DesignPreview extends JFrame {
         //Left Panel Components
         leftPanel = new JPanel(); //Sub panel 1
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        leftPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Invoices Table", TitledBorder.LEFT,
-                TitledBorder.TOP));
+        leftPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Invoices Table", TitledBorder.LEFT, TitledBorder.TOP));
 
 
         //Invoice Table
@@ -85,6 +90,8 @@ public class DesignPreview extends JFrame {
 
         //Delete Invoice Button
         deleteInvoiceBtn = new JButton("Delete Invoice");
+        deleteInvoiceBtn.setActionCommand("D");
+        deleteInvoiceBtn.addActionListener(this);
         deleteInvoiceBtn.setBackground(Color.lightGray);
         hBoxLeftPanel.add(Box.createHorizontalStrut(50));
         hBoxLeftPanel.add(deleteInvoiceBtn);
@@ -100,31 +107,29 @@ public class DesignPreview extends JFrame {
         rightTopPanel.setLayout(new GridLayout(4, 2));
         JLabel invoiceNumberLabel = new JLabel("Invoice Number");
         rightTopPanel.add(invoiceNumberLabel);
-        JLabel invoiceNumberValueLabel = new JLabel("");
+        invoiceNumberValueLabel = new JLabel("");
         rightTopPanel.add(invoiceNumberValueLabel);
 
 
         JLabel invoiceDataLabel = new JLabel("Invoice Date");
         rightTopPanel.add(invoiceDataLabel);
-        JTextField invoiceDatatextField = new JTextField(15);
+        invoiceDatatextField = new JTextField(15);
         rightTopPanel.add(invoiceDatatextField);
 
 
         JLabel customerNameLabel = new JLabel("Customer Name");
         rightTopPanel.add(customerNameLabel);
-        JTextField customerNmaetextField = new JTextField(15);
+        customerNmaetextField = new JTextField(15);
         rightTopPanel.add(customerNmaetextField);
 
         JLabel invoiceTotal = new JLabel("Invoice Total");
         rightTopPanel.add(invoiceTotal);
-        JLabel invoiceTotalLabel = new JLabel("");
+        invoiceTotalLabel = new JLabel("");
         rightTopPanel.add(invoiceTotalLabel);
 
         //Invoice Items Table
         JPanel invoiceItemsTablePanel = new JPanel();
-        invoiceItemsTablePanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Invoices Items", TitledBorder.LEFT,
-                TitledBorder.TOP));
+        invoiceItemsTablePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Invoices Items", TitledBorder.LEFT, TitledBorder.TOP));
 
         invoiceItemTable = new JTable(invoiceItemsdata, invoiceItemscols);
         invoiceItemsTablePanel.add(new JScrollPane(invoiceItemTable));
@@ -167,5 +172,29 @@ public class DesignPreview extends JFrame {
 
     public static void main(String[] args) {
         new DesignPreview().setVisible(true);
+
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        FileOperations.fetchRowData();
+        switch (e.getActionCommand()) {
+            case "L":
+                leftPanel.removeAll();
+                FileOperations newContentPane = new FileOperations();
+                leftPanel.add(newContentPane);
+                leftPanel.add(leftPanelButtons);
+                leftPanel.validate();
+                leftPanel.repaint();
+                break;
+            case "D":
+                FileOperations.deleteRow();
+                break;
+
+        }
+
+    }
+
 }
+
+
