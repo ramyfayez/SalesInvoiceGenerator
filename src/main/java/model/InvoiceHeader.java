@@ -1,11 +1,37 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InvoiceHeader {
-    int invoiceNum;
-    String invoiceDate;
-    String customerName;
+
+    private int invoiceNum;
+    private String customerName;
+    private Date date;
+    private ArrayList<InvoiceLines> lines;
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+    @Override
+    public String toString() {
+        return "InvoiceHeader{" + "invoiceNum=" + invoiceNum + ", customerName=" + customerName + ", date=" + df.format(date) + '}';
+    }
+
+    public InvoiceHeader(int invoiceNum, String customerName, Date date) {
+        this.invoiceNum = invoiceNum;
+        this.customerName = customerName;
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date =  date;
+    }
 
     public int getInvoiceNum() {
         return invoiceNum;
@@ -13,14 +39,6 @@ public class InvoiceHeader {
 
     public void setInvoiceNum(int invoiceNum) {
         this.invoiceNum = invoiceNum;
-    }
-
-    public String getInvoiceDate() {
-        return invoiceDate;
-    }
-
-    public void setInvoiceDate(String invoiceDate) {
-        this.invoiceDate = invoiceDate;
     }
 
     public String getCustomerName() {
@@ -31,27 +49,18 @@ public class InvoiceHeader {
         this.customerName = customerName;
     }
 
-    public ArrayList<InvoiceLine> getInvoiceLines() {
-        return invoiceLines;
+    public ArrayList<InvoiceLines> getLines() {
+        if (lines == null) {
+            lines = new ArrayList<>();
+        }
+        return lines;
     }
 
-    public void setInvoiceLines(ArrayList<InvoiceLine> invoiceLines) {
-        this.invoiceLines = invoiceLines;
+    public double getInvoiceTotal() {
+        double total = 0;
+        for (InvoiceLines lines : getLines()) {
+            total += lines.getItemTotal();
+        }
+        return total;
     }
-
-    public InvoiceHeader(int invoiceNum, String invoiceDate, String customerName, ArrayList<InvoiceLine> invoiceLines) {
-        this.invoiceNum = invoiceNum;
-        this.invoiceDate = invoiceDate;
-        this.customerName = customerName;
-        this.invoiceLines = invoiceLines;
-    }
-
-    public InvoiceHeader(int invoiceNum, String invoiceDate, String customerName) {
-        this.invoiceNum = invoiceNum;
-        this.invoiceDate = invoiceDate;
-        this.customerName = customerName;
-    }
-
-    ArrayList<InvoiceLine> invoiceLines = new InvoiceLine();
-
 }
