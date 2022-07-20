@@ -2,17 +2,16 @@ package model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class InvoiceHeader {
 
-    private int invoiceNum;
-    private String customerName;
-    private Date date;
+    private final int invoiceNum;
+    private final String customerName;
+    private final Date date;
     private ArrayList<InvoiceLines> lines;
-    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    private final DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     public String toString() {
@@ -29,24 +28,12 @@ public class InvoiceHeader {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public int getInvoiceNum() {
         return invoiceNum;
     }
 
-    public void setInvoiceNum(int invoiceNum) {
-        this.invoiceNum = invoiceNum;
-    }
-
     public String getCustomerName() {
         return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
     }
 
     public ArrayList<InvoiceLines> getLines() {

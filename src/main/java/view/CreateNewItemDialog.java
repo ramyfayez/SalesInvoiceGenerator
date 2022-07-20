@@ -1,24 +1,21 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.math.RoundingMode;
-import java.text.NumberFormat;
-import java.text.ParseException;
+
 
 public class CreateNewItemDialog extends JDialog {
-    public CreateNewItemDialog(InvoiceFrame frame)  {
-        itemNameCrL = new javax.swing.JLabel();
-        itemCountCrL = new javax.swing.JLabel();
-        itemPriceCrL = new javax.swing.JLabel();
+    public CreateNewItemDialog(InvoiceFrame frame) {
+        JLabel itemNameCrL = new JLabel();
+        JLabel itemCountCrL = new JLabel();
+        JLabel itemPriceCrL = new JLabel();
         itemNameCrF = new javax.swing.JTextField();
         itemCountCrF = new javax.swing.JTextField();
         itemPriceCrF = new javax.swing.JFormattedTextField();
-        itemOkBtn = new javax.swing.JButton();
-        itemCancelBtn = new javax.swing.JButton();
+        JButton itemOkBtn = new JButton();
+        // Variables declaration - do not modify
+        JButton itemCancelBtn = new JButton();
 
         itemCountCrF.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -28,7 +25,6 @@ public class CreateNewItemDialog extends JDialog {
                 }
             }
         });
-
 
 
         itemNameCrL.setText("*Item Name");
@@ -110,13 +106,7 @@ public class CreateNewItemDialog extends JDialog {
         return itemPriceCrF;
     }
 
-    // Variables declaration - do not modify
-    private javax.swing.JButton itemCancelBtn;
     public static javax.swing.JTextField itemCountCrF;
-    private javax.swing.JLabel itemCountCrL;
     public static javax.swing.JTextField itemNameCrF;
-    private javax.swing.JLabel itemNameCrL;
-    private javax.swing.JButton itemOkBtn;
     public static javax.swing.JFormattedTextField itemPriceCrF;
-    private javax.swing.JLabel itemPriceCrL;
 }

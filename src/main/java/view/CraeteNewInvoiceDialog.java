@@ -3,17 +3,16 @@ package view;
 import javax.swing.*;
 
 
-
 public class CraeteNewInvoiceDialog extends JDialog {
 
     public CraeteNewInvoiceDialog(InvoiceFrame frame) {
-        createNewInvoiceFormeL = new javax.swing.JLabel();
-        customerNameCrInL = new javax.swing.JLabel();
+        JLabel createNewInvoiceFormeL = new JLabel();
+        JLabel customerNameCrInL = new JLabel();
         customerNameCrInF = new javax.swing.JTextField();
-        dateCrInL = new javax.swing.JLabel();
+        JLabel dateCrInL = new JLabel();
         dateCrInF = new javax.swing.JTextField();
-        okBtn = new javax.swing.JButton();
-        cancelBtn = new javax.swing.JButton();
+        JButton okBtn = new JButton();
+        JButton cancelBtn = new JButton();
 
 
         customerNameCrInL.setText("*Customer Name");
@@ -89,12 +88,7 @@ public class CraeteNewInvoiceDialog extends JDialog {
         return dateCrInF;
     }
 
-    private javax.swing.JButton cancelBtn;
-    private javax.swing.JLabel createNewInvoiceFormeL;
     public static javax.swing.JTextField customerNameCrInF;
-    private javax.swing.JLabel customerNameCrInL;
     public static javax.swing.JTextField dateCrInF;
-    private javax.swing.JLabel dateCrInL;
-    private javax.swing.JButton okBtn;
 
 }

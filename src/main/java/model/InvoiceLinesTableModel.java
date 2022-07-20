@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class InvoiceLinesTableModel extends AbstractTableModel {
     public static ArrayList<InvoiceLines> itemsData;
-    private String[] cols = {"Item Name", "Item Price", "Count", "Item Total"};
+    private final String[] cols = {"Item Name", "Item Price", "Count", "Item Total"};
 
 
     public InvoiceLinesTableModel(ArrayList<InvoiceLines> itemsData) {
-        this.itemsData = itemsData;
+        InvoiceLinesTableModel.itemsData = itemsData;
     }
 
 
@@ -25,9 +25,7 @@ public class InvoiceLinesTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (itemsData == null) {
-            return "";
-        } else {
+        if (itemsData != null) {
             InvoiceLines line = itemsData.get(rowIndex);
             switch (columnIndex) {
                 case 0:
@@ -39,8 +37,8 @@ public class InvoiceLinesTableModel extends AbstractTableModel {
                 case 3:
                     return line.getItemTotal();
             }
-            return "";
         }
+        return "";
     }
 
     @Override

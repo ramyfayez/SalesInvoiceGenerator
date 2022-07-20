@@ -12,11 +12,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import model.FileOperations;
 import model.InvoiceHeader;
 import model.InvoiceLines;
 import model.InvoiceLinesTableModel;
@@ -37,7 +36,7 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
     private CreateNewItemDialog createNewItemDialog;
 
     public ActionsHandler(InvoiceFrame frame) {
-        this.frame = frame;
+        ActionsHandler.frame = frame;
     }
 
 
@@ -47,6 +46,7 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
             case "Load File" -> {
                 System.out.println("Load File Menu Item Pressed");
                 loadFile();
+                FileOperations.readFilesData();
             }
             case "Save File" -> {
                 System.out.println("Save File Menu Item Pressed");
@@ -158,7 +158,7 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     String lineStrPath = fileChooser.getSelectedFile().getAbsolutePath();
                     Path linePath = Paths.get(lineStrPath);
-                    List<String> lineLines = Files.lines(linePath).collect(Collectors.toList());
+                    List<String> lineLines = Files.lines(linePath).toList();
                     for (String lineItems : lineLines) {
                         String[] itemParts = lineItems.split(",");
                         int invID = Integer.parseInt(itemParts[0]);
@@ -166,6 +166,7 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
                         int count = Integer.parseInt(itemParts[3]);
                         InvoiceHeader header = getInvoiveHeaderById(invoiceHeaderList, invID);
                         InvoiceLines invLine = new InvoiceLines(header, itemParts[1], price, count);
+                        assert header != null;
                         header.getLines().add(invLine);
                     }
                     frame.setInvoiceHeaderList(invoiceHeaderList);
@@ -195,24 +196,24 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File headerFile = fc.getSelectedFile();
                 FileWriter hfw = new FileWriter(headerFile);
-                String headers = "";
-                String lines = "";
+                StringBuilder headers = new StringBuilder();
+                StringBuilder lines = new StringBuilder();
                 for (InvoiceHeader invoice : invoicesArray) {
-                    headers += invoice.toString();
-                    headers += "\n";
+                    headers.append(invoice.toString());
+                    headers.append("\n");
                     for (InvoiceLines line : invoice.getLines()) {
-                        lines += line.toString();
-                        lines += "\n";
+                        lines.append(line.toString());
+                        lines.append("\n");
                     }
                 }
-                headers = headers.substring(0, headers.length()-1);
-                lines = lines.substring(0, lines.length()-1);
+                headers = new StringBuilder(headers.substring(0, headers.length() - 1));
+                lines = new StringBuilder(lines.substring(0, lines.length() - 1));
                 Thread.sleep(500);
                 fc.showSaveDialog(frame);
                 File lineFile = fc.getSelectedFile();
                 FileWriter lfw = new FileWriter(lineFile);
-                hfw.write(headers);
-                lfw.write(lines);
+                hfw.write(headers.toString());
+                lfw.write(lines.toString());
                 hfw.close();
                 lfw.close();
             }
@@ -328,9 +329,11 @@ public class ActionsHandler implements ActionListener, ListSelectionListener {
                     JOptionPane.showMessageDialog(frame, "First: Load File", "Load File", JOptionPane.INFORMATION_MESSAGE);
                 } else if (frame.getInvoiceTable().getSelectedRow() != -1) {
                     createNewItem();
-                    JOptionPane.showMessageDialog(createNewItemDialog, "Items Name: Text\n" +
-                                    "Item Count: Numbers only ex.1\n" +
-                                    "Item Price: Numbers only ex.1.1\n"
+                    JOptionPane.showMessageDialog(createNewItemDialog, """
+                                    Items Name: Text
+                                    Item Count: Numbers only ex.1
+                                    Item Price: Numbers only ex.1.1
+                                    """
                             , "Fields Input Format", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class InvoiceHeaderTableModel extends AbstractTableModel {
     public static ArrayList<InvoiceHeader> data;
-    private String[] cols = {"No", "Date", "Customer Name", "Total"};
+    private final String[] cols = {"No", "Date", "Customer Name", "Total"};
 
     public InvoiceHeaderTableModel(ArrayList<InvoiceHeader> data) {
-        this.data = data;
+        InvoiceHeaderTableModel.data = data;
     }
 
     @Override
@@ -27,17 +27,13 @@ public class InvoiceHeaderTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         InvoiceHeader header = data.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return header.getInvoiceNum();
-            case 1:
-                return InvoiceFrame.dateFormat.format(header.getDate());
-            case 2:
-                return header.getCustomerName();
-            case 3:
-                return header.getInvoiceTotal();
-        }
-        return "";
+        return switch (columnIndex) {
+            case 0 -> header.getInvoiceNum();
+            case 1 -> InvoiceFrame.dateFormat.format(header.getDate());
+            case 2 -> header.getCustomerName();
+            case 3 -> header.getInvoiceTotal();
+            default -> "";
+        };
     }
 
     @Override

@@ -2,10 +2,10 @@ package model;
 
 public class InvoiceLines {
 
-    private InvoiceHeader invoiceNum;
-    private String itemName;
-    private double itemPrice;
-    private int count;
+    private final InvoiceHeader invoiceNum;
+    private final String itemName;
+    private final double itemPrice;
+    private final int count;
 
     public InvoiceLines(InvoiceHeader invoiceNum, String itemName, double itemPrice, int count) {
         this.invoiceNum = invoiceNum;
@@ -23,32 +23,12 @@ public class InvoiceLines {
         return count;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public InvoiceHeader getInvoiceNum() {
-        return invoiceNum;
-    }
-
-    public void setInvoiceNum(InvoiceHeader invoiceNum) {
-        this.invoiceNum = invoiceNum;
-    }
-
     public String getItemName() {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
     public double getItemPrice() {
         return itemPrice;
-    }
-
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
     }
 
     public double getItemTotal() {
