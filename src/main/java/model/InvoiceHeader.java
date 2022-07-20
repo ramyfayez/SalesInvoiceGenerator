@@ -16,7 +16,7 @@ public class InvoiceHeader {
 
     @Override
     public String toString() {
-        return "InvoiceHeader{" + "invoiceNum=" + invoiceNum + ", customerName=" + customerName + ", date=" + df.format(date) + '}';
+        return invoiceNum + "," + df.format(date) + "," + customerName;
     }
 
     public InvoiceHeader(int invoiceNum, String customerName, Date date) {
@@ -30,7 +30,7 @@ public class InvoiceHeader {
     }
 
     public void setDate(Date date) {
-        this.date =  date;
+        this.date = date;
     }
 
     public int getInvoiceNum() {
